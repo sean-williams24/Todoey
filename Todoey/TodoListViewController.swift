@@ -11,13 +11,17 @@ import UIKit
 class TodoListViewController: UITableViewController {
     
     var itemArray = ["Find Mike", "Buy Eggos", "Destroy Demogorgan"]
+    
+    let defaults = UserDefaults()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tableViewTapped))
-//        tableView.addGestureRecognizer(tapGesture)
+        if let items = defaults.array(forKey: "ToDoListArray") as? [String] {
+            itemArray = items
+        }
+        
+
     }
 
         //MARK - Tableview Datasource Methods
@@ -65,6 +69,8 @@ class TodoListViewController: UITableViewController {
             //What will happen once the user clicks the Add Item button on our UI alert
             
             self.itemArray.append(textField.text!)
+            
+            self.defaults.set(self.itemArray, forKey: "ToDoListArray")
             
             self.tableView.reloadData()
             
